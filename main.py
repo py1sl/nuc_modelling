@@ -35,18 +35,36 @@ def em_force(p1, p2):
 def strong_force(p1, p2):
     return 0
 
-def setup():
-    """ """
 
-    np = 10
-    plist= []
-    i = 0 
-    while i < np:
-        p = particle()
-        p.x = i
-        plist.append(p)
-        i = i + 1
-    return plist
+def SEMF(n, z):
+    """ semi empirical mass formula
+        n = neutron number
+        z = proton number
+    """
+    
+    # atomic mass
+    a = n + z
+
+    # parameters from J. W. Rohlf, "Modern Physics from alpha to Z0", Wiley (1994).
+    aV = 15.75
+    aS = 17.8
+    aC = 0.711
+    aA = 23.7
+    delta = 11.18
+    
+    # need to know if odd or even numbers of neutrons and protons
+    if ((n%2) == 0) and ((z%2) == 0):
+        sgn = 1
+    elif ((n%2) != 0) and ((z%2) != 0):
+        sgn = -1
+    else:
+        sgn = 0
+
+    # The SEMF for the average binding energy per nucleon.
+    E = (aV - aS / a**(1/3) - aC * z**2 / a**(4/3) -
+         aA * (a-2*z)**2/a**2 + sgn * delta/a**(3/2))
+
+    return E
 
 def main():
     # set logging up
@@ -55,20 +73,8 @@ def main():
     logging.info('Started')
     logging.info("Reading data")
 
-    initial_plist = setup()
-    initial_plist[0].v = 1
-    t=0
-    maxt= 10
-    plist = initial_plist
-    while t < maxt:
-        for i, p in enumerate(plist):
-            p.x = p.x + p.u
-            p.y = p.y + p.v
-            p.z = p.z + p.w
-            plist[i] = p
-        t = t + 1
-    
-    print(plist[0].y)
+    bind_erg = SEMF(10, 10)
+    print(bind_erg)
 
     logging.info("Analysis complete")
 
