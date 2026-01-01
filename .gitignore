@@ -6,6 +6,11 @@ __pycache__/
 # Pytest cache
 .pytest_cache/
 
+# Coverage reports
+htmlcov/
+.coverage
+coverage.xml
+
 # Distribution / packaging
 .Python
 build/
