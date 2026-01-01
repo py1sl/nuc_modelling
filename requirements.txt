@@ -1,0 +1,7 @@
+# Core dependencies for main.py
+matplotlib>=3.5.0
+numpy>=1.21.0
+pandas>=1.3.0
+
+# Testing dependencies
+pytest>=7.0.0
