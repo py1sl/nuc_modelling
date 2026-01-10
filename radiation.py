@@ -11,74 +11,56 @@ import numpy as np
 
 
 def decay_constant(half_life):
-    """
-    Calculate the decay constant from half-life.
-    
-    The decay constant (λ) relates to half-life (t₁/₂) by:
-    λ = ln(2) / t₁/₂
-    
-    Args:
-        half_life: Half-life of the radioactive isotope (in any time unit)
-    
-    Returns:
-        Decay constant (in inverse of the same time unit as half_life)
-    
-    Example:
-        >>> decay_constant(10.0)  # half-life of 10 seconds
-        0.06931471805599453  # decay constant in s^-1
-    """
+    """Calculate the decay constant from half-life: λ = ln(2) / t₁/₂"""
     if half_life <= 0:
         raise ValueError("Half-life must be positive")
     return np.log(2) / half_life
 
 
 def half_life(decay_constant_value):
-    """
-    Calculate the half-life from decay constant.
-    
-    The half-life (t₁/₂) relates to decay constant (λ) by:
-    t₁/₂ = ln(2) / λ
-    
-    Args:
-        decay_constant_value: Decay constant (in inverse time unit)
-    
-    Returns:
-        Half-life (in the same time unit as decay_constant)
-    
-    Example:
-        >>> half_life(0.0693)  # decay constant of 0.0693 s^-1
-        10.003341995507592  # half-life in seconds
-    """
+    """Calculate the half-life from decay constant: t₁/₂ = ln(2) / λ"""
     if decay_constant_value <= 0:
         raise ValueError("Decay constant must be positive")
     return np.log(2) / decay_constant_value
 
 
 def activity(decay_constant_value, num_nuclei):
-    """
-    Calculate radioactive activity.
-    
-    Activity (A) is the rate of decay given by:
-    A = λN
-    
-    where λ is the decay constant and N is the number of radioactive nuclei.
-    
-    Args:
-        decay_constant_value: Decay constant (in inverse time unit, e.g., s^-1)
-        num_nuclei: Number of radioactive nuclei
-    
-    Returns:
-        Activity (in Becquerels if decay_constant in s^-1, i.e., decays per second)
-    
-    Example:
-        >>> activity(0.0693, 1e10)  # 0.0693 s^-1, 10 billion nuclei
-        693000000.0  # activity in Bq
-    """
+    """Calculate radioactive activity: A = λN"""
     if decay_constant_value < 0:
         raise ValueError("Decay constant must be non-negative")
     if num_nuclei < 0:
         raise ValueError("Number of nuclei must be non-negative")
     return decay_constant_value * num_nuclei
+
+
+def activity_at_time(initial_activity, decay_constant_value, time):
+    """
+    Calculate radioactive activity at a future time.
+    
+    The activity decays exponentially according to:
+    A(t) = A₀ * e^(-λt)
+    
+    where A₀ is the initial activity, λ is the decay constant, and t is time.
+    
+    Args:
+        initial_activity: Initial activity at t=0 (in Bq or other activity unit)
+        decay_constant_value: Decay constant (in inverse time unit, e.g., s^-1)
+        time: Time elapsed (in same time unit as decay_constant)
+    
+    Returns:
+        Activity at the specified time (same units as initial_activity)
+    
+    Example:
+        >>> activity_at_time(1000.0, 0.0693, 10.0)  # 1000 Bq, λ=0.0693 s^-1, t=10s
+        500.0  # approximately half after one half-life
+    """
+    if initial_activity < 0:
+        raise ValueError("Initial activity must be non-negative")
+    if decay_constant_value < 0:
+        raise ValueError("Decay constant must be non-negative")
+    if time < 0:
+        raise ValueError("Time must be non-negative")
+    return initial_activity * np.exp(-decay_constant_value * time)
 
 
 def radiation_point_source(activity_value, distance):

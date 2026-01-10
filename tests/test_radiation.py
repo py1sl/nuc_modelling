@@ -14,6 +14,7 @@ from radiation import (
     decay_constant,
     half_life,
     activity,
+    activity_at_time,
     radiation_point_source,
     radiation_infinite_line_source,
     radiation_semi_infinite_plane
@@ -128,6 +129,96 @@ class TestActivity:
         result = activity(dc, n)
         assert result == dc * n
         assert result > 1e21
+
+
+class TestActivityAtTime:
+    """Tests for activity_at_time function"""
+    
+    def test_activity_at_time_basic(self):
+        """Test basic activity decay calculation"""
+        initial_act = 1000.0
+        dc = np.log(2) / 10.0  # half-life of 10 seconds
+        time = 10.0  # one half-life
+        result = activity_at_time(initial_act, dc, time)
+        # After one half-life, activity should be half
+        assert np.isclose(result, initial_act / 2)
+    
+    def test_activity_at_time_zero_time(self):
+        """Test that activity at t=0 equals initial activity"""
+        initial_act = 1000.0
+        dc = 0.1
+        result = activity_at_time(initial_act, dc, 0.0)
+        assert np.isclose(result, initial_act)
+    
+    def test_activity_at_time_exponential_decay(self):
+        """Test exponential decay relationship"""
+        initial_act = 1000.0
+        dc = 0.1
+        time = 5.0
+        result = activity_at_time(initial_act, dc, time)
+        expected = initial_act * np.exp(-dc * time)
+        assert np.isclose(result, expected)
+    
+    def test_activity_at_time_multiple_half_lives(self):
+        """Test activity after multiple half-lives"""
+        initial_act = 1000.0
+        hl = 5.0
+        dc = np.log(2) / hl
+        
+        # After 2 half-lives (10 seconds)
+        time = 10.0
+        result = activity_at_time(initial_act, dc, time)
+        # Activity should be 1/4 of initial
+        assert np.isclose(result, initial_act / 4)
+        
+        # After 3 half-lives (15 seconds)
+        time = 15.0
+        result = activity_at_time(initial_act, dc, time)
+        # Activity should be 1/8 of initial
+        assert np.isclose(result, initial_act / 8)
+    
+    def test_activity_at_time_zero_decay_constant(self):
+        """Test with zero decay constant (stable nucleus)"""
+        initial_act = 1000.0
+        result = activity_at_time(initial_act, 0.0, 100.0)
+        # Activity should remain constant for stable nucleus
+        assert np.isclose(result, initial_act)
+    
+    def test_activity_at_time_negative_initial_activity(self):
+        """Test that negative initial activity raises ValueError"""
+        with pytest.raises(ValueError, match="Initial activity must be non-negative"):
+            activity_at_time(-1000.0, 0.1, 10.0)
+    
+    def test_activity_at_time_negative_decay_constant(self):
+        """Test that negative decay constant raises ValueError"""
+        with pytest.raises(ValueError, match="Decay constant must be non-negative"):
+            activity_at_time(1000.0, -0.1, 10.0)
+    
+    def test_activity_at_time_negative_time(self):
+        """Test that negative time raises ValueError"""
+        with pytest.raises(ValueError, match="Time must be non-negative"):
+            activity_at_time(1000.0, 0.1, -10.0)
+    
+    def test_activity_at_time_large_time(self):
+        """Test activity after very long time (should approach zero)"""
+        initial_act = 1000.0
+        dc = 0.1
+        time = 100.0  # very long time
+        result = activity_at_time(initial_act, dc, time)
+        # Activity should be very small (less than 5% of initial)
+        assert result < initial_act * 0.05
+        assert result >= 0
+    
+    def test_activity_at_time_with_decay_constant_from_half_life(self):
+        """Test using decay constant calculated from half-life"""
+        initial_act = 5000.0
+        hl = 7.3  # years (e.g., for some isotope)
+        dc = decay_constant(hl)
+        time = 7.3  # one half-life
+        
+        result = activity_at_time(initial_act, dc, time)
+        # After one half-life, activity should be half
+        assert np.isclose(result, initial_act / 2, rtol=1e-10)
 
 
 class TestRadiationPointSource:
