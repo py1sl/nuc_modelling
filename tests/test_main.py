@@ -9,56 +9,7 @@ import os
 # Add parent directory to path to import basic_nuclear_structure module
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from basic_nuclear_structure import particle, em_force, strong_force, SEMF, binding_energy, neutron_separation_energy, proton_separation_energy
-
-
-class TestParticle:
-    """Tests for the particle class"""
-    
-    def test_particle_initialization(self):
-        """Test that particle initializes with default values"""
-        p = particle()
-        assert p.charge == 0
-        assert p.mass_amu == 1
-        assert p.energy == 100
-        assert p.rest_mass == 0
-        assert p.name == "ball"
-        assert p.symbol == "b"
-        assert p.x == 0
-        assert p.y == 0
-        assert p.z == 0
-        assert p.u == 0
-        assert p.v == 0
-        assert p.w == 0
-    
-    def test_particle_attributes_can_be_modified(self):
-        """Test that particle attributes can be modified"""
-        p = particle()
-        p.charge = 1
-        p.mass_amu = 2
-        p.energy = 200
-        p.name = "proton"
-        assert p.charge == 1
-        assert p.mass_amu == 2
-        assert p.energy == 200
-        assert p.name == "proton"
-
-
-class TestForces:
-    """Tests for force functions"""
-    
-    def test_em_force_returns_zero(self):
-        """Test that em_force returns 0"""
-        p1 = particle()
-        p2 = particle()
-        assert em_force(p1, p2) == 0
-    
-    def test_strong_force_returns_zero(self):
-        """Test that strong_force returns 0"""
-        p1 = particle()
-        p2 = particle()
-        assert strong_force(p1, p2) == 0
-
+from basic_nuclear_structure import SEMF, binding_energy, neutron_separation_energy, proton_separation_energy
 
 class TestSEMF:
     """Tests for Semi-Empirical Mass Formula"""
