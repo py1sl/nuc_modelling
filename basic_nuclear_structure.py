@@ -2,9 +2,6 @@
 Basic nuclear structure module for nuclear modelling.
 
 This module provides:
-- particle: A base class representing a nuclear particle.
-- em_force: Electromagnetic force between two particles (placeholder).
-- strong_force: Strong nuclear force between two particles (placeholder).
 - SEMF: Semi-Empirical Mass Formula (Bethe-Weizsäcker) for binding energy per nucleon.
 - binding_energy: Total binding energy of a nucleus using SEMF.
 - neutron_separation_energy: Energy required to remove one neutron from a nucleus.
@@ -12,51 +9,7 @@ This module provides:
 - main: Example usage demonstrating the module.
 """
 
-
-class particle:
-    """Represents a nuclear particle with basic properties and phase-space coordinates."""
-
-    def __init__(self):
-        self.charge = 0
-        self.mass_amu = 1
-        self.energy = 100
-        self.rest_mass = 0
-        self.name = "ball"
-        self.symbol = "b"
-        self.x = 0
-        self.y = 0
-        self.z = 0
-        self.u = 0
-        self.v = 0
-        self.w = 0
-
-
-def em_force(p1, p2):
-    """
-    Calculate the electromagnetic force between two particles.
-
-    Args:
-        p1: First particle instance.
-        p2: Second particle instance.
-
-    Returns:
-        Electromagnetic force (placeholder, returns 0).
-    """
-    return 0
-
-
-def strong_force(p1, p2):
-    """
-    Calculate the strong nuclear force between two particles.
-
-    Args:
-        p1: First particle instance.
-        p2: Second particle instance.
-
-    Returns:
-        Strong nuclear force (placeholder, returns 0).
-    """
-    return 0
+from particle import particle
 
 
 def SEMF(n, z):
@@ -165,12 +118,7 @@ def proton_separation_energy(n, z):
 def main():
     """Demonstrate basic nuclear structure calculations."""
     p = particle()
-    print(f"Particle: {p.name} ({p.symbol}), charge={p.charge}, mass={p.mass_amu} amu")
-
-    p1 = particle()
-    p2 = particle()
-    print(f"EM force: {em_force(p1, p2)}")
-    print(f"Strong force: {strong_force(p1, p2)}")
+    print(p)
 
     # Binding energy per nucleon for some example nuclei
     for (n, z, label) in [(6, 6, "C-12"), (10, 10, "Ne-20"), (82, 50, "Sn-132")]:
