@@ -1,0 +1,126 @@
+"""
+Basic nuclear structure module for nuclear modelling.
+
+This module provides:
+- particle: A base class representing a nuclear particle.
+- em_force: Electromagnetic force between two particles (placeholder).
+- strong_force: Strong nuclear force between two particles (placeholder).
+- SEMF: Semi-Empirical Mass Formula (Bethe-Weizsäcker) for binding energy per nucleon.
+- main: Example usage demonstrating the module.
+"""
+
+
+class particle:
+    """Represents a nuclear particle with basic properties and phase-space coordinates."""
+
+    def __init__(self):
+        self.charge = 0
+        self.mass_amu = 1
+        self.energy = 100
+        self.rest_mass = 0
+        self.name = "ball"
+        self.symbol = "b"
+        self.x = 0
+        self.y = 0
+        self.z = 0
+        self.u = 0
+        self.v = 0
+        self.w = 0
+
+
+def em_force(p1, p2):
+    """
+    Calculate the electromagnetic force between two particles.
+
+    Args:
+        p1: First particle instance.
+        p2: Second particle instance.
+
+    Returns:
+        Electromagnetic force (placeholder, returns 0).
+    """
+    return 0
+
+
+def strong_force(p1, p2):
+    """
+    Calculate the strong nuclear force between two particles.
+
+    Args:
+        p1: First particle instance.
+        p2: Second particle instance.
+
+    Returns:
+        Strong nuclear force (placeholder, returns 0).
+    """
+    return 0
+
+
+def SEMF(n, z):
+    """
+    Semi-Empirical Mass Formula (Bethe-Weizsäcker formula).
+
+    Calculates the binding energy per nucleon for a nucleus with n neutrons
+    and z protons using the liquid-drop model coefficients (in MeV).
+
+    Args:
+        n: Number of neutrons.
+        z: Number of protons.
+
+    Returns:
+        Binding energy per nucleon in MeV.
+    """
+    # SEMF coefficients (MeV)
+    av = 15.8    # volume term
+    as_ = 18.3   # surface term
+    ac = 0.714   # Coulomb term
+    aa = 23.2    # asymmetry term
+    ap = 12.0    # pairing term
+
+    A = n + z    # mass number
+
+    if A == 0:
+        return 0
+
+    # Volume term
+    binding_energy = av * A
+
+    # Surface term
+    binding_energy -= as_ * A ** (2.0 / 3.0)
+
+    # Coulomb term
+    binding_energy -= ac * z * (z - 1) / A ** (1.0 / 3.0)
+
+    # Asymmetry term
+    binding_energy -= aa * (A - 2 * z) ** 2 / A
+
+    # Pairing term
+    if n % 2 == 0 and z % 2 == 0:
+        # Even-even: positive contribution
+        binding_energy += ap / A ** 0.5
+    elif n % 2 != 0 and z % 2 != 0:
+        # Odd-odd: negative contribution
+        binding_energy -= ap / A ** 0.5
+    # else: even-odd or odd-even: no pairing contribution
+
+    return binding_energy / A
+
+
+def main():
+    """Demonstrate basic nuclear structure calculations."""
+    p = particle()
+    print(f"Particle: {p.name} ({p.symbol}), charge={p.charge}, mass={p.mass_amu} amu")
+
+    p1 = particle()
+    p2 = particle()
+    print(f"EM force: {em_force(p1, p2)}")
+    print(f"Strong force: {strong_force(p1, p2)}")
+
+    # Binding energy per nucleon for some example nuclei
+    for (n, z, label) in [(6, 6, "C-12"), (10, 10, "Ne-20"), (82, 50, "Sn-132")]:
+        be = SEMF(n, z)
+        print(f"SEMF({n}, {z}) [{label}]: {be:.4f} MeV/nucleon")
+
+
+if __name__ == "__main__":
+    main()
