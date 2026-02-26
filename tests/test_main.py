@@ -1,15 +1,15 @@
 """
-Tests for main.py
+Tests for basic_nuclear_structure.py
 """
 
 import pytest
 import sys
 import os
 
-# Add parent directory to path to import main module
+# Add parent directory to path to import basic_nuclear_structure module
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from main import particle, em_force, strong_force, SEMF
+from basic_nuclear_structure import particle, em_force, strong_force, SEMF
 
 
 class TestParticle:
