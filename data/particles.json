@@ -1,0 +1,144 @@
+{
+  "particles": [
+    {
+      "name": "neutron",
+      "pdg_symbol": "n",
+      "pdg_number": 2112,
+      "mass_kg": 1.67492749804e-27,
+      "mass_mev": 939.56542052,
+      "charge": 0,
+      "spin": 0.5,
+      "type": "baryon"
+    },
+    {
+      "name": "proton",
+      "pdg_symbol": "p",
+      "pdg_number": 2212,
+      "mass_kg": 1.67262192369e-27,
+      "mass_mev": 938.27208816,
+      "charge": 1,
+      "spin": 0.5,
+      "type": "baryon"
+    },
+    {
+      "name": "electron",
+      "pdg_symbol": "e-",
+      "pdg_number": 11,
+      "mass_kg": 9.1093837015e-31,
+      "mass_mev": 0.51099895000,
+      "charge": -1,
+      "spin": 0.5,
+      "type": "lepton"
+    },
+    {
+      "name": "positron",
+      "pdg_symbol": "e+",
+      "pdg_number": -11,
+      "mass_kg": 9.1093837015e-31,
+      "mass_mev": 0.51099895000,
+      "charge": 1,
+      "spin": 0.5,
+      "type": "lepton"
+    },
+    {
+      "name": "photon",
+      "pdg_symbol": "gamma",
+      "pdg_number": 22,
+      "mass_kg": 0.0,
+      "mass_mev": 0.0,
+      "charge": 0,
+      "spin": 1.0,
+      "type": "boson"
+    },
+    {
+      "name": "muon",
+      "pdg_symbol": "mu-",
+      "pdg_number": 13,
+      "mass_kg": 1.883531627e-28,
+      "mass_mev": 105.6583755,
+      "charge": -1,
+      "spin": 0.5,
+      "type": "lepton"
+    },
+    {
+      "name": "antimuon",
+      "pdg_symbol": "mu+",
+      "pdg_number": -13,
+      "mass_kg": 1.883531627e-28,
+      "mass_mev": 105.6583755,
+      "charge": 1,
+      "spin": 0.5,
+      "type": "lepton"
+    },
+    {
+      "name": "electron_neutrino",
+      "pdg_symbol": "nu_e",
+      "pdg_number": 12,
+      "mass_kg": 0.0,
+      "mass_mev": 0.0,
+      "charge": 0,
+      "spin": 0.5,
+      "type": "lepton"
+    },
+    {
+      "name": "pion_plus",
+      "pdg_symbol": "pi+",
+      "pdg_number": 211,
+      "mass_kg": 2.4880216e-28,
+      "mass_mev": 139.57039,
+      "charge": 1,
+      "spin": 0.0,
+      "type": "meson"
+    },
+    {
+      "name": "pion_minus",
+      "pdg_symbol": "pi-",
+      "pdg_number": -211,
+      "mass_kg": 2.4880216e-28,
+      "mass_mev": 139.57039,
+      "charge": -1,
+      "spin": 0.0,
+      "type": "meson"
+    },
+    {
+      "name": "pion_zero",
+      "pdg_symbol": "pi0",
+      "pdg_number": 111,
+      "mass_kg": 2.4061179e-28,
+      "mass_mev": 134.9768,
+      "charge": 0,
+      "spin": 0.0,
+      "type": "meson"
+    },
+    {
+      "name": "alpha",
+      "pdg_symbol": "alpha",
+      "pdg_number": 1000020040,
+      "mass_kg": 6.6446573357e-27,
+      "mass_mev": 3727.3794066,
+      "charge": 2,
+      "spin": 0.0,
+      "type": "nucleus"
+    },
+    {
+      "name": "deuteron",
+      "pdg_symbol": "d",
+      "pdg_number": 1000010020,
+      "mass_kg": 3.3435837724e-27,
+      "mass_mev": 1875.61294257,
+      "charge": 1,
+      "spin": 1.0,
+      "type": "nucleus"
+    },
+    {
+      "name": "triton",
+      "pdg_symbol": "t",
+      "pdg_number": 1000010030,
+      "mass_kg": 5.0073567446e-27,
+      "mass_mev": 2808.92113298,
+      "charge": 1,
+      "spin": 0.5,
+      "type": "nucleus"
+    }
+  ]
+}
