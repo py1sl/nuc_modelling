@@ -8,7 +8,9 @@
       "mass_mev": 939.56542052,
       "charge": 0,
       "spin": 0.5,
-      "type": "baryon"
+      "type": "baryon",
+      "mean_lifetime": 878.4,
+      "mcnp_symbol": "n"
     },
     {
       "name": "proton",
@@ -18,7 +20,9 @@
       "mass_mev": 938.27208816,
       "charge": 1,
       "spin": 0.5,
-      "type": "baryon"
+      "type": "baryon",
+      "mean_lifetime": null,
+      "mcnp_symbol": "h"
     },
     {
       "name": "electron",
@@ -28,7 +32,9 @@
       "mass_mev": 0.51099895000,
       "charge": -1,
       "spin": 0.5,
-      "type": "lepton"
+      "type": "lepton",
+      "mean_lifetime": null,
+      "mcnp_symbol": "e"
     },
     {
       "name": "positron",
@@ -38,7 +44,9 @@
       "mass_mev": 0.51099895000,
       "charge": 1,
       "spin": 0.5,
-      "type": "lepton"
+      "type": "lepton",
+      "mean_lifetime": null,
+      "mcnp_symbol": "f"
     },
     {
       "name": "photon",
@@ -48,7 +56,9 @@
       "mass_mev": 0.0,
       "charge": 0,
       "spin": 1.0,
-      "type": "boson"
+      "type": "boson",
+      "mean_lifetime": null,
+      "mcnp_symbol": "p"
     },
     {
       "name": "muon",
@@ -58,7 +68,9 @@
       "mass_mev": 105.6583755,
       "charge": -1,
       "spin": 0.5,
-      "type": "lepton"
+      "type": "lepton",
+      "mean_lifetime": 2.1969811e-6,
+      "mcnp_symbol": "|"
     },
     {
       "name": "antimuon",
@@ -68,7 +80,9 @@
       "mass_mev": 105.6583755,
       "charge": 1,
       "spin": 0.5,
-      "type": "lepton"
+      "type": "lepton",
+      "mean_lifetime": 2.1969811e-6,
+      "mcnp_symbol": null
     },
     {
       "name": "electron_neutrino",
@@ -78,7 +92,9 @@
       "mass_mev": 0.0,
       "charge": 0,
       "spin": 0.5,
-      "type": "lepton"
+      "type": "lepton",
+      "mean_lifetime": null,
+      "mcnp_symbol": "q"
     },
     {
       "name": "pion_plus",
@@ -88,7 +104,9 @@
       "mass_mev": 139.57039,
       "charge": 1,
       "spin": 0.0,
-      "type": "meson"
+      "type": "meson",
+      "mean_lifetime": 2.6033e-8,
+      "mcnp_symbol": "/"
     },
     {
       "name": "pion_minus",
@@ -98,7 +116,9 @@
       "mass_mev": 139.57039,
       "charge": -1,
       "spin": 0.0,
-      "type": "meson"
+      "type": "meson",
+      "mean_lifetime": 2.6033e-8,
+      "mcnp_symbol": "*"
     },
     {
       "name": "pion_zero",
@@ -108,7 +128,9 @@
       "mass_mev": 134.9768,
       "charge": 0,
       "spin": 0.0,
-      "type": "meson"
+      "type": "meson",
+      "mean_lifetime": 8.43e-17,
+      "mcnp_symbol": "^"
     },
     {
       "name": "alpha",
@@ -118,7 +140,9 @@
       "mass_mev": 3727.3794066,
       "charge": 2,
       "spin": 0.0,
-      "type": "nucleus"
+      "type": "nucleus",
+      "mean_lifetime": null,
+      "mcnp_symbol": "a"
     },
     {
       "name": "deuteron",
@@ -128,7 +152,9 @@
       "mass_mev": 1875.61294257,
       "charge": 1,
       "spin": 1.0,
-      "type": "nucleus"
+      "type": "nucleus",
+      "mean_lifetime": null,
+      "mcnp_symbol": "d"
     },
     {
       "name": "triton",
@@ -138,7 +164,57 @@
       "mass_mev": 2808.92113298,
       "charge": 1,
       "spin": 0.5,
-      "type": "nucleus"
+      "type": "nucleus",
+      "mean_lifetime": 3.888e8,
+      "mcnp_symbol": "t"
+    },
+    {
+      "name": "kaon_plus",
+      "pdg_symbol": "K+",
+      "pdg_number": 321,
+      "mass_kg": 8.8017e-28,
+      "mass_mev": 493.677,
+      "charge": 1,
+      "spin": 0.0,
+      "type": "meson",
+      "mean_lifetime": 1.2380e-8,
+      "mcnp_symbol": "k+"
+    },
+    {
+      "name": "kaon_minus",
+      "pdg_symbol": "K-",
+      "pdg_number": -321,
+      "mass_kg": 8.8017e-28,
+      "mass_mev": 493.677,
+      "charge": -1,
+      "spin": 0.0,
+      "type": "meson",
+      "mean_lifetime": 1.2380e-8,
+      "mcnp_symbol": "k-"
+    },
+    {
+      "name": "kaon_short",
+      "pdg_symbol": "K0S",
+      "pdg_number": 310,
+      "mass_kg": 8.8719e-28,
+      "mass_mev": 497.611,
+      "charge": 0,
+      "spin": 0.0,
+      "type": "meson",
+      "mean_lifetime": 8.954e-11,
+      "mcnp_symbol": "k0s"
+    },
+    {
+      "name": "kaon_long",
+      "pdg_symbol": "K0L",
+      "pdg_number": 130,
+      "mass_kg": 8.8719e-28,
+      "mass_mev": 497.611,
+      "charge": 0,
+      "spin": 0.0,
+      "type": "meson",
+      "mean_lifetime": 5.116e-8,
+      "mcnp_symbol": "k0l"
     }
   ]
 }

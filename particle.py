@@ -28,7 +28,8 @@ def load_particle_data():
     -------
     list[dict]
         A list of particle dictionaries, each containing keys: name,
-        pdg_symbol, pdg_number, mass_kg, mass_mev, charge, spin, type.
+        pdg_symbol, pdg_number, mass_kg, mass_mev, charge, spin, type,
+        mean_lifetime, mcnp_symbol.
 
     Raises
     ------
