@@ -25,6 +25,7 @@ dev = [
 py-modules = [
     "basic_nuclear_structure",
     "bertini_cascade",
+    "kinematics",
     "nuclear_constants",
     "particle",
     "particles_beams",
