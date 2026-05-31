@@ -33,6 +33,10 @@ H = PLANCK_CONSTANT
 # Reduced Planck constant (J·s)
 HBAR = PLANCK_CONSTANT / (2 * math.pi)  # J·s
 
+# Vacuum permittivity (F/m)
+VACUUM_PERMITTIVITY = 8.8541878128e-12  # F/m
+EPSILON_0 = VACUUM_PERMITTIVITY
+
 # --- Energy conversions ---
 # 1 eV in Joules
 EV_TO_J = ELEMENTARY_CHARGE         # J/eV  (1 eV = 1.602e-19 J)

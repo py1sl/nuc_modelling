@@ -90,6 +90,38 @@ Analogously to $S_n$, closed proton shells produce discontinuities in $S_p$ acro
 
 ---
 
+## Bohr Model (Hydrogen / Hydrogen-like Ions)
+
+The module also includes a simple Bohr-model treatment for one-electron atoms using principal
+quantum number $n$ and nuclear charge $Z$.
+
+### Orbital radius
+
+$$
+r_n = a_0 \frac{n^2}{Z}
+$$
+
+where $a_0$ is the Bohr radius.
+
+### Orbital speed
+
+$$
+v_n = \frac{Z\alpha c}{n}
+$$
+
+where $\alpha$ is the fine-structure constant.
+
+### Energy level
+
+$$
+E_n = -13.6057 \,\text{eV} \cdot \frac{Z^2}{n^2}
+$$
+
+For hydrogen transitions (e.g. Balmer $\mathrm{H}\alpha$: $n=3 \rightarrow 2$), the module computes
+the emitted wavelength from the level energy difference.
+
+---
+
 ## References
 
 - C. F. von Weizsäcker, *Zur Theorie der Kernmassen*, Z. Phys. **96**, 431 (1935).

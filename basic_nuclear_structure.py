@@ -6,8 +6,8 @@ This module provides:
 - binding_energy: Total binding energy of a nucleus using SEMF.
 - neutron_separation_energy: Energy required to remove one neutron from a nucleus.
 - proton_separation_energy: Energy required to remove one proton from a nucleus.
-- bohr_hydrogen_state: Radius, orbital speed, and energy for hydrogen Bohr levels.
-- hydrogen_transition_wavelength: Emission wavelength for transitions between levels.
+- bohr_hydrogen_state: Radius, speed, and energy for hydrogen Bohr levels.
+- hydrogen_transition_wavelength: Emission wavelength between hydrogen levels.
 - main: Example usage demonstrating the module.
 """
 
@@ -17,17 +17,26 @@ from particle import particle
 from nuclear_constants import (
     ELEMENTARY_CHARGE,
     ELECTRON_MASS,
-    H,
     HBAR,
+    PLANCK_CONSTANT,
     SPEED_OF_LIGHT,
+    VACUUM_PERMITTIVITY,
 )
 
 
-VACUUM_PERMITTIVITY = 8.8541878128e-12  # F/m
 BOHR_RADIUS = (
     4 * math.pi * VACUUM_PERMITTIVITY * HBAR**2
     / (ELECTRON_MASS * ELEMENTARY_CHARGE**2)
 )
+FINE_STRUCTURE_CONSTANT = (
+    ELEMENTARY_CHARGE**2
+    / (4 * math.pi * VACUUM_PERMITTIVITY * HBAR * SPEED_OF_LIGHT)
+)
+RYDBERG_ENERGY_EV = (
+    ELECTRON_MASS * ELEMENTARY_CHARGE**4
+    / (8 * VACUUM_PERMITTIVITY**2 * PLANCK_CONSTANT**2 * ELEMENTARY_CHARGE)
+)
+RYDBERG_ENERGY_J = RYDBERG_ENERGY_EV * ELEMENTARY_CHARGE
 
 
 def _validate_positive_integer(value, name):
@@ -156,13 +165,9 @@ def bohr_hydrogen_state(n, z=1):
     _validate_positive_integer(n, "n")
     _validate_positive_integer(z, "z")
 
-    fine_structure = (
-        ELEMENTARY_CHARGE**2
-        / (4 * math.pi * VACUUM_PERMITTIVITY * HBAR * SPEED_OF_LIGHT)
-    )
     radius_m = BOHR_RADIUS * (n**2) / z
-    speed_m_s = SPEED_OF_LIGHT * fine_structure * z / n
-    energy_ev = -13.605693122994 * (z**2) / (n**2)
+    speed_m_s = SPEED_OF_LIGHT * FINE_STRUCTURE_CONSTANT * z / n
+    energy_ev = -RYDBERG_ENERGY_EV * (z**2) / (n**2)
 
     return {
         "radius_m": radius_m,
@@ -187,16 +192,25 @@ def hydrogen_transition_wavelength(n_initial, n_final):
     if n_initial <= n_final:
         raise ValueError("n_initial must be greater than n_final for emission")
 
-    e_i_j = bohr_hydrogen_state(n_initial)["energy_ev"] * ELEMENTARY_CHARGE
-    e_f_j = bohr_hydrogen_state(n_final)["energy_ev"] * ELEMENTARY_CHARGE
-    delta_e_j = e_f_j - e_i_j
-    return H * SPEED_OF_LIGHT / delta_e_j
+    initial_energy_j = -RYDBERG_ENERGY_J / (n_initial**2)
+    final_energy_j = -RYDBERG_ENERGY_J / (n_final**2)
+    delta_e_j = initial_energy_j - final_energy_j
+    return PLANCK_CONSTANT * SPEED_OF_LIGHT / delta_e_j
 
 
 def main():
     """Demonstrate basic nuclear structure calculations."""
     p = particle()
     print(p)
+    h1 = bohr_hydrogen_state(1)
+    print(
+        "Hydrogen Bohr n=1: "
+        f"r={h1['radius_m']:.3e} m, "
+        f"v={h1['speed_m_s']:.3e} m/s, "
+        f"E={h1['energy_ev']:.4f} eV"
+    )
+    h_alpha_nm = hydrogen_transition_wavelength(3, 2) * 1e9
+    print(f"Hydrogen H-alpha (3->2): {h_alpha_nm:.2f} nm")
 
     # Binding energy per nucleon for some example nuclei
     for (n, z, label) in [(6, 6, "C-12"), (10, 10, "Ne-20"), (82, 50, "Sn-132")]:
