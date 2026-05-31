@@ -27,6 +27,7 @@ py-modules = [
     "bertini_cascade",
     "kinematics",
     "nuclear_constants",
+    "nuclear_interaction",
     "particle",
     "particles_beams",
     "radiation",
