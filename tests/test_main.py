@@ -9,7 +9,14 @@ import os
 # Add parent directory to path to import basic_nuclear_structure module
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from basic_nuclear_structure import SEMF, binding_energy, neutron_separation_energy, proton_separation_energy
+from basic_nuclear_structure import (
+    SEMF,
+    binding_energy,
+    neutron_separation_energy,
+    proton_separation_energy,
+    bohr_hydrogen_state,
+    hydrogen_transition_wavelength,
+)
 
 class TestSEMF:
     """Tests for Semi-Empirical Mass Formula"""
@@ -132,3 +139,32 @@ class TestSeparationEnergies:
     def test_proton_separation_energy_zero_protons(self):
         """S_p should return 0 when z < 1"""
         assert proton_separation_energy(6, 0) == 0
+
+
+class TestBohrHydrogenModel:
+    """Tests for Bohr-model helpers for hydrogen."""
+
+    def test_ground_state_values_are_reasonable(self):
+        """Hydrogen n=1 should match known Bohr-scale values."""
+        state = bohr_hydrogen_state(1)
+        assert state["radius_m"] == pytest.approx(5.29177e-11, rel=1e-4)
+        assert state["speed_m_s"] == pytest.approx(2.18769e6, rel=1e-4)
+        assert state["energy_ev"] == pytest.approx(-13.6057, rel=1e-4)
+
+    def test_n2_radius_scales_with_n_squared(self):
+        """r_n should scale as n² for hydrogen."""
+        r1 = bohr_hydrogen_state(1)["radius_m"]
+        r2 = bohr_hydrogen_state(2)["radius_m"]
+        assert r2 == pytest.approx(4.0 * r1, rel=1e-12)
+
+    def test_halpha_transition_wavelength(self):
+        """H-alpha (n=3 -> 2) should be ~656.3 nm."""
+        wavelength_m = hydrogen_transition_wavelength(3, 2)
+        assert wavelength_m == pytest.approx(656.3e-9, rel=2e-3)
+
+    def test_invalid_levels_raise(self):
+        """Bohr helpers should reject invalid principal quantum numbers."""
+        with pytest.raises(ValueError):
+            bohr_hydrogen_state(0)
+        with pytest.raises(ValueError):
+            hydrogen_transition_wavelength(2, 2)
