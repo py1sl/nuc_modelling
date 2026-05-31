@@ -487,7 +487,7 @@ def effective_range_cross_section(k_inv_fm, a_fm, r0_fm=0.0):
     """
     _validate_non_negative(k_inv_fm, "k_inv_fm")
     if a_fm == 0.0:
-        raise ValueError("Scattering length a_fm must not be zero")
+        raise ValueError("Scattering length a_fm must be non-zero (positive or negative values are allowed)")
     _validate_non_negative(r0_fm, "r0_fm")
 
     k2 = k_inv_fm ** 2

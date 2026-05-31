@@ -780,8 +780,6 @@ class TestCrossModuleConsistency:
 
     def test_nuclear_target_radius_consistent_with_bertini(self):
         """NuclearTarget radius formula matches bertini_cascade.nuclear_radius."""
-        import sys
-        sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
         from bertini_cascade import nuclear_radius as bertini_radius
 
         target = NuclearTarget(z=74, a=184)
