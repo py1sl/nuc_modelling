@@ -30,6 +30,22 @@ HBAR_C_MEV_FM = 197.3269804
 MB_TO_FM2 = 0.1
 
 
+def _validate_bertini_energy(kinetic_energy_mev):
+    """Validate kinetic energy is within the Bertini model validity range."""
+    if kinetic_energy_mev < BERTINI_MIN_ENERGY_MEV:
+        raise ValueError(
+            f"Proton kinetic energy {kinetic_energy_mev} MeV is below the "
+            f"minimum valid energy {BERTINI_MIN_ENERGY_MEV} MeV for the "
+            "Bertini model."
+        )
+    if kinetic_energy_mev > BERTINI_MAX_ENERGY_MEV:
+        raise ValueError(
+            f"Proton kinetic energy {kinetic_energy_mev} MeV exceeds the "
+            f"maximum valid energy {BERTINI_MAX_ENERGY_MEV} MeV for the "
+            "Bertini model."
+        )
+
+
 def nuclear_radius(a):
     """
     Calculate nuclear radius using the empirical formula R = r₀ · A^(1/3).
@@ -79,6 +95,8 @@ def nucleon_nucleon_cross_section(kinetic_energy_mev, is_pp=True):
     Returns:
         Total cross section in mb (millibarns).
     """
+    _validate_bertini_energy(kinetic_energy_mev)
+
     T = kinetic_energy_mev
     if is_pp:
         # pp: ~50 mb at 100 MeV, falling toward ~40 mb at high energy
@@ -106,6 +124,8 @@ def mean_free_path(kinetic_energy_mev, density, z_fraction):
     Returns:
         Mean free path in fm.
     """
+    _validate_bertini_energy(kinetic_energy_mev)
+
     if density <= 0:
         raise ValueError("Density must be positive")
     if z_fraction < 0 or z_fraction > 1:
@@ -201,18 +221,7 @@ class BertiniCascade:
         Raises:
             ValueError: If kinetic_energy_mev is outside [100, 3000] MeV.
         """
-        if kinetic_energy_mev < BERTINI_MIN_ENERGY_MEV:
-            raise ValueError(
-                f"Proton kinetic energy {kinetic_energy_mev} MeV is below the "
-                f"minimum valid energy {BERTINI_MIN_ENERGY_MEV} MeV for the "
-                "Bertini model."
-            )
-        if kinetic_energy_mev > BERTINI_MAX_ENERGY_MEV:
-            raise ValueError(
-                f"Proton kinetic energy {kinetic_energy_mev} MeV exceeds the "
-                f"maximum valid energy {BERTINI_MAX_ENERGY_MEV} MeV for the "
-                "Bertini model."
-            )
+        _validate_bertini_energy(kinetic_energy_mev)
 
         mfp = mean_free_path(kinetic_energy_mev, self.density, self.z_fraction)
         avg_collisions = self.average_number_of_collisions(kinetic_energy_mev)

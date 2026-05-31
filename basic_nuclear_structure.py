@@ -45,6 +45,12 @@ def _validate_positive_integer(value, name):
         raise ValueError(f"{name} must be a positive integer")
 
 
+def _validate_non_negative_integer(value, name):
+    """Validate that an input is a non-negative integer."""
+    if not isinstance(value, int) or value < 0:
+        raise ValueError(f"{name} must be a non-negative integer")
+
+
 def SEMF(n, z):
     """
     Semi-Empirical Mass Formula (Bethe-Weizsäcker formula).
@@ -53,12 +59,15 @@ def SEMF(n, z):
     and z protons using the liquid-drop model coefficients (in MeV).
 
     Args:
-        n: Number of neutrons.
-        z: Number of protons.
+        n: Number of neutrons (non-negative integer).
+        z: Number of protons (non-negative integer).
 
     Returns:
         Binding energy per nucleon in MeV.
     """
+    _validate_non_negative_integer(n, "n")
+    _validate_non_negative_integer(z, "z")
+
     # SEMF coefficients (MeV)
     av = 15.8    # volume term
     as_ = 18.3   # surface term
@@ -100,12 +109,15 @@ def binding_energy(n, z):
     Calculate the total binding energy of a nucleus using the SEMF.
 
     Args:
-        n: Number of neutrons.
-        z: Number of protons.
+        n: Number of neutrons (non-negative integer).
+        z: Number of protons (non-negative integer).
 
     Returns:
         Total binding energy in MeV.
     """
+    _validate_non_negative_integer(n, "n")
+    _validate_non_negative_integer(z, "z")
+
     A = n + z
     return SEMF(n, z) * A
 
@@ -118,12 +130,15 @@ def neutron_separation_energy(n, z):
         S_n(N, Z) = B(N, Z) - B(N-1, Z)
 
     Args:
-        n: Number of neutrons (must be >= 1).
-        z: Number of protons.
+        n: Number of neutrons (non-negative integer).
+        z: Number of protons (non-negative integer).
 
     Returns:
         Neutron separation energy in MeV, or 0 if n < 1.
     """
+    _validate_non_negative_integer(n, "n")
+    _validate_non_negative_integer(z, "z")
+
     if n < 1:
         return 0
     return binding_energy(n, z) - binding_energy(n - 1, z)
@@ -137,12 +152,15 @@ def proton_separation_energy(n, z):
         S_p(N, Z) = B(N, Z) - B(N, Z-1)
 
     Args:
-        n: Number of neutrons.
-        z: Number of protons (must be >= 1).
+        n: Number of neutrons (non-negative integer).
+        z: Number of protons (non-negative integer).
 
     Returns:
         Proton separation energy in MeV, or 0 if z < 1.
     """
+    _validate_non_negative_integer(n, "n")
+    _validate_non_negative_integer(z, "z")
+
     if z < 1:
         return 0
     return binding_energy(n, z) - binding_energy(n, z - 1)

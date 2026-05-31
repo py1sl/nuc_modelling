@@ -155,6 +155,17 @@ class TestLoadParticleData:
         for expected in ("neutron", "proton", "electron", "photon", "alpha"):
             assert expected in names
 
+    def test_return_value_mutation_does_not_affect_cache(self):
+        """Mutating returned data should not alter future loaded values."""
+        original = load_particle_data()
+        modified = load_particle_data()
+        modified[0]["name"] = "__mutated__"
+        modified.append({"name": "fake"})
+
+        reloaded = load_particle_data()
+        assert reloaded[0]["name"] == original[0]["name"]
+        assert all(p.get("name") != "fake" for p in reloaded)
+
 
 class TestParticleFromName:
     """Tests for the particle.from_name() classmethod"""
