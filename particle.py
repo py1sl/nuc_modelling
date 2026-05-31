@@ -11,6 +11,7 @@ This module provides:
 
 import json
 import os
+from copy import deepcopy
 
 from nuclear_constants import PROTON_MASS, NEUTRON_MASS, ELECTRON_MASS, ELEMENTARY_CHARGE
 
@@ -41,7 +42,7 @@ def load_particle_data():
         with open(_DATA_FILE, "r", encoding="utf-8") as f:
             data = json.load(f)
         _PARTICLE_DATA_CACHE = data["particles"]
-    return _PARTICLE_DATA_CACHE
+    return deepcopy(_PARTICLE_DATA_CACHE)
 
 
 class particle:

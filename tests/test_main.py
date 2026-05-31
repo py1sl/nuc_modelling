@@ -81,6 +81,13 @@ class TestSEMF:
         result = SEMF(1, 0)
         assert isinstance(result, (int, float))
 
+    def test_semf_negative_inputs_raise(self):
+        """SEMF should reject negative neutron/proton counts."""
+        with pytest.raises(ValueError, match="non-negative integer"):
+            SEMF(-1, 1)
+        with pytest.raises(ValueError, match="non-negative integer"):
+            SEMF(1, -1)
+
 
 class TestBindingEnergy:
     """Tests for the total binding_energy function"""
@@ -103,6 +110,13 @@ class TestBindingEnergy:
         result = binding_energy(82, 50)
         assert isinstance(result, (int, float))
         assert result > 0
+
+    def test_binding_energy_negative_inputs_raise(self):
+        """binding_energy should reject negative neutron/proton counts."""
+        with pytest.raises(ValueError, match="non-negative integer"):
+            binding_energy(-1, 6)
+        with pytest.raises(ValueError, match="non-negative integer"):
+            binding_energy(6, -1)
 
 
 class TestSeparationEnergies:
@@ -139,6 +153,17 @@ class TestSeparationEnergies:
     def test_proton_separation_energy_zero_protons(self):
         """S_p should return 0 when z < 1"""
         assert proton_separation_energy(6, 0) == 0
+
+    def test_separation_energy_negative_inputs_raise(self):
+        """Separation-energy helpers should reject negative inputs."""
+        with pytest.raises(ValueError, match="non-negative integer"):
+            neutron_separation_energy(-1, 6)
+        with pytest.raises(ValueError, match="non-negative integer"):
+            neutron_separation_energy(6, -1)
+        with pytest.raises(ValueError, match="non-negative integer"):
+            proton_separation_energy(-1, 6)
+        with pytest.raises(ValueError, match="non-negative integer"):
+            proton_separation_energy(6, -1)
 
 
 class TestBohrHydrogenModel:

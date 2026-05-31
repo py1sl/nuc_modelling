@@ -113,6 +113,16 @@ class TestNucleonNucleonCrossSection:
             assert nucleon_nucleon_cross_section(T, is_pp=True) > 0
             assert nucleon_nucleon_cross_section(T, is_pp=False) > 0
 
+    def test_cross_section_below_range_raises(self):
+        """Cross section helper should enforce Bertini minimum energy."""
+        with pytest.raises(ValueError, match="below the minimum"):
+            nucleon_nucleon_cross_section(99.9, is_pp=True)
+
+    def test_cross_section_above_range_raises(self):
+        """Cross section helper should enforce Bertini maximum energy."""
+        with pytest.raises(ValueError, match="exceeds the maximum"):
+            nucleon_nucleon_cross_section(3000.1, is_pp=False)
+
 
 class TestMeanFreePath:
     """Tests for the mean_free_path function"""
@@ -141,6 +151,16 @@ class TestMeanFreePath:
             mean_free_path(500.0, 0.17, -0.1)
         with pytest.raises(ValueError):
             mean_free_path(500.0, 0.17, 1.1)
+
+    def test_mean_free_path_below_energy_range_raises(self):
+        """Mean free path helper should enforce Bertini minimum energy."""
+        with pytest.raises(ValueError, match="below the minimum"):
+            mean_free_path(99.9, 0.17, 0.4)
+
+    def test_mean_free_path_above_energy_range_raises(self):
+        """Mean free path helper should enforce Bertini maximum energy."""
+        with pytest.raises(ValueError, match="exceeds the maximum"):
+            mean_free_path(3000.1, 0.17, 0.4)
 
 
 class TestBertiniCascadeInit:
