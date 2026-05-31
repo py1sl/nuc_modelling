@@ -134,12 +134,12 @@ def neutron_separation_energy(n, z):
         z: Number of protons (non-negative integer).
 
     Returns:
-        Neutron separation energy in MeV, or 0 if n == 0.
+        Neutron separation energy in MeV, or 0 if n < 1.
     """
     _validate_non_negative_integer(n, "n")
     _validate_non_negative_integer(z, "z")
 
-    if n == 0:
+    if n < 1:
         return 0
     return binding_energy(n, z) - binding_energy(n - 1, z)
 
@@ -156,12 +156,12 @@ def proton_separation_energy(n, z):
         z: Number of protons (non-negative integer).
 
     Returns:
-        Proton separation energy in MeV, or 0 if z == 0.
+        Proton separation energy in MeV, or 0 if z < 1.
     """
     _validate_non_negative_integer(n, "n")
     _validate_non_negative_integer(z, "z")
 
-    if z == 0:
+    if z < 1:
         return 0
     return binding_energy(n, z) - binding_energy(n, z - 1)
 
