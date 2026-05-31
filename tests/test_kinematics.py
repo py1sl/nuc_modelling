@@ -315,7 +315,7 @@ class TestRelativisticInvariantMass:
 
 class TestRelativisticCmMomentum:
     def test_zero_T_nonzero_unequal_masses(self):
-        """At T=0 the CoM momentum is non-zero only if m1 ≠ 0 and m2 ≠ 0... actually it's 0."""
+        """At T=0 the CoM momentum is zero."""
         p = relativistic_cm_momentum(0.0, NEUTRON_MEV, PROTON_MEV)
         assert p == pytest.approx(0.0, abs=1e-6)
 

@@ -30,8 +30,6 @@ References
 
 import math
 
-from nuclear_constants import SPEED_OF_LIGHT, MEV_TO_J, ELEMENTARY_CHARGE
-
 
 # ---------------------------------------------------------------------------
 # Classical (non-relativistic) two-body elastic scattering
@@ -362,13 +360,16 @@ def classical_lab_to_cm_angle(theta_lab, m1, m2):
     """Convert a projectile lab scattering angle to the equivalent CoM angle.
 
     This is the inverse of :func:`classical_cm_to_lab_angle`.  The
-    relationship is solved analytically:
+    relationship is solved analytically by rearranging:
 
-    cos θ_cm = (1 + (m1/m2) cos θ_lab) / sqrt(sin²θ_lab + (1 + (m1/m2) cos θ_lab)²)
-    ... (expanded from the atan2 formula above)
+    tan θ_lab = sin θ_cm / (r + cos θ_cm),  r = m1/m2
 
-    An iterative numerical inversion is used to handle all mass ratios
-    correctly.
+    into the quadratic in x = cos θ_cm:
+
+    (1 + t²) x² + 2r t² x + (r²t² − 1) = 0,  t = tan θ_lab
+
+    Both roots are evaluated and the one that round-trips back to *theta_lab*
+    via :func:`classical_cm_to_lab_angle` is returned.
 
     Parameters
     ----------
