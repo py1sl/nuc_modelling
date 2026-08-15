@@ -152,6 +152,37 @@ def sigma_from_a(a_m):
     return a_m / math.sqrt(8.0 * math.log(2.0))
 
 
+def gaussian_profile_p_of_x(x, a, b=0.0, c=1.0):
+    """Calculate the Gaussian beam profile value p(x).
+
+    p(x) = c * exp(-(1.6651092 * (x - b) / a)^2)
+
+    Parameters
+    ----------
+    x : float
+        Position at which to evaluate the profile.
+    a : float
+        Gaussian width parameter in the denominator of the profile expression.
+    b : float, optional
+        Profile centre. Default is 0.
+    c : float, optional
+        Profile amplitude scaling. Default is 1.
+
+    Returns
+    -------
+    float
+        Profile value p(x).
+
+    Raises
+    ------
+    ValueError
+        If *a* is zero.
+    """
+    if a == 0:
+        raise ValueError("a must be non-zero")
+    return c * math.exp(-1.0 * (1.6651092 * (x - b) / a) ** 2)
+
+
 def beam_power(current, energy_mev, charge_number=1, duty_factor=1.0):
     """Calculate average beam power.
 

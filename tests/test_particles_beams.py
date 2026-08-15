@@ -16,6 +16,7 @@ from particles_beams import (
     sigma_from_beam_diameter,
     a_from_sigma,
     sigma_from_a,
+    gaussian_profile_p_of_x,
     beam_power,
     particles_per_second,
     particles_per_pulse,
@@ -98,6 +99,31 @@ class TestBeamDimensions:
     def test_negative_sigma_for_a_raises(self):
         with pytest.raises(ValueError, match="Sigma must be non-negative"):
             a_from_sigma(-1e-3)
+
+
+class TestGaussianProfile:
+    """Tests for gaussian_profile_p_of_x function"""
+
+    def test_default_b_and_c(self):
+        x = 1.0
+        a = 2.0
+        expected = math.exp(-(1.6651092 * x / a) ** 2)
+        assert math.isclose(gaussian_profile_p_of_x(x, a), expected, rel_tol=1e-12)
+
+    def test_with_explicit_b_and_c(self):
+        x = 3.0
+        a = 4.0
+        b = 1.0
+        c = 2.5
+        expected = c * math.exp(-(1.6651092 * (x - b) / a) ** 2)
+        assert math.isclose(gaussian_profile_p_of_x(x, a, b=b, c=c), expected, rel_tol=1e-12)
+
+    def test_center_equals_amplitude(self):
+        assert math.isclose(gaussian_profile_p_of_x(5.0, 1.0, b=5.0, c=3.2), 3.2, rel_tol=1e-12)
+
+    def test_zero_a_raises(self):
+        with pytest.raises(ValueError, match="a must be non-zero"):
+            gaussian_profile_p_of_x(1.0, 0.0)
 
 
 # ---------------------------------------------------------------------------
