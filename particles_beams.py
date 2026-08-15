@@ -19,10 +19,171 @@ import math
 from nuclear_constants import ELEMENTARY_CHARGE, MEV_TO_J, SPEED_OF_LIGHT
 from particle import particle
 
+GAUSSIAN_FWHM_PROFILE_FACTOR = math.sqrt(4.0 * math.log(2.0))
+
 
 # ---------------------------------------------------------------------------
 # Current / power relationships
 # ---------------------------------------------------------------------------
+
+def beam_diameter_from_sigma(sigma_m, n_sigma=1):
+    """Calculate beam diameter from Gaussian sigma.
+
+    diameter = 2 × n_sigma × sigma
+
+    Parameters
+    ----------
+    sigma_m : float
+        Beam RMS size (σ) in metres.
+    n_sigma : int or float, optional
+        Sigma envelope multiplier (e.g. 1, 2, 3). Default is 1.
+
+    Returns
+    -------
+    float
+        Beam diameter in metres at the requested sigma envelope.
+
+    Raises
+    ------
+    ValueError
+        If *sigma_m* is negative or *n_sigma* is non-positive.
+    """
+    if sigma_m < 0:
+        raise ValueError("Sigma must be non-negative")
+    if n_sigma <= 0:
+        raise ValueError("n_sigma must be positive")
+    return 2.0 * n_sigma * sigma_m
+
+
+def beam_diameters_1_2_3_sigma(sigma_m):
+    """Calculate beam diameters at 1σ, 2σ and 3σ for a Gaussian beam.
+
+    Parameters
+    ----------
+    sigma_m : float
+        Beam RMS size (σ) in metres.
+
+    Returns
+    -------
+    tuple[float, float, float]
+        Diameters (d_1sigma, d_2sigma, d_3sigma) in metres.
+    """
+    return (
+        beam_diameter_from_sigma(sigma_m, n_sigma=1),
+        beam_diameter_from_sigma(sigma_m, n_sigma=2),
+        beam_diameter_from_sigma(sigma_m, n_sigma=3),
+    )
+
+
+def sigma_from_beam_diameter(diameter_m, n_sigma=1):
+    """Calculate Gaussian sigma from beam diameter.
+
+    sigma = diameter / (2 × n_sigma)
+
+    Parameters
+    ----------
+    diameter_m : float
+        Beam diameter in metres at the *n_sigma* envelope.
+    n_sigma : int or float, optional
+        Sigma envelope multiplier (e.g. 1, 2, 3). Default is 1.
+
+    Returns
+    -------
+    float
+        Beam RMS size (σ) in metres.
+
+    Raises
+    ------
+    ValueError
+        If *diameter_m* is negative or *n_sigma* is non-positive.
+    """
+    if diameter_m < 0:
+        raise ValueError("Beam diameter must be non-negative")
+    if n_sigma <= 0:
+        raise ValueError("n_sigma must be positive")
+    return diameter_m / (2.0 * n_sigma)
+
+
+def a_from_sigma(sigma_m):
+    """Calculate Gaussian FWHM parameter ``a`` from sigma.
+
+    a = sqrt(8 ln 2) × sigma
+
+    Parameters
+    ----------
+    sigma_m : float
+        Beam RMS size (σ) in metres.
+
+    Returns
+    -------
+    float
+        Full width at half maximum (FWHM), denoted here as ``a``, in metres.
+
+    Raises
+    ------
+    ValueError
+        If *sigma_m* is negative.
+    """
+    if sigma_m < 0:
+        raise ValueError("Sigma must be non-negative")
+    return math.sqrt(8.0 * math.log(2.0)) * sigma_m
+
+
+def sigma_from_a(a_m):
+    """Calculate Gaussian sigma from FWHM parameter ``a``.
+
+    sigma = a / sqrt(8 ln 2)
+
+    Parameters
+    ----------
+    a_m : float
+        Full width at half maximum (FWHM), denoted here as ``a``, in metres.
+
+    Returns
+    -------
+    float
+        Beam RMS size (σ) in metres.
+
+    Raises
+    ------
+    ValueError
+        If *a_m* is negative.
+    """
+    if a_m < 0:
+        raise ValueError("a must be non-negative")
+    return a_m / math.sqrt(8.0 * math.log(2.0))
+
+
+def gaussian_profile_p_of_x(x, a, b=0.0, c=1.0):
+    """Calculate the Gaussian beam profile value p(x).
+
+    p(x) = c * exp(-(k * (x - b) / a)^2), with k = 1.6651092
+
+    Parameters
+    ----------
+    x : float
+        Position at which to evaluate the profile.
+    a : float
+        Gaussian width parameter in the denominator of the profile expression.
+    b : float, optional
+        Profile centre. Default is 0.
+    c : float, optional
+        Profile amplitude scaling. Default is 1.
+
+    Returns
+    -------
+    float
+        Profile value p(x).
+
+    Raises
+    ------
+    ValueError
+        If *a* is non-positive.
+    """
+    if a <= 0:
+        raise ValueError("a must be positive")
+    return c * math.exp(-(GAUSSIAN_FWHM_PROFILE_FACTOR * (x - b) / a) ** 2)
+
 
 def beam_power(current, energy_mev, charge_number=1, duty_factor=1.0):
     """Calculate average beam power.
