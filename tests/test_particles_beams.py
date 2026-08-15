@@ -95,6 +95,10 @@ class TestBeamDimensions:
         with pytest.raises(ValueError, match="a must be non-negative"):
             sigma_from_a(-1e-3)
 
+    def test_negative_sigma_for_a_raises(self):
+        with pytest.raises(ValueError, match="Sigma must be non-negative"):
+            a_from_sigma(-1e-3)
+
 
 # ---------------------------------------------------------------------------
 # beam_power

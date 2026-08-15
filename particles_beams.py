@@ -103,7 +103,7 @@ def sigma_from_beam_diameter(diameter_m, n_sigma=1):
 
 
 def a_from_sigma(sigma_m):
-    """Calculate Gaussian width parameter ``a`` from sigma.
+    """Calculate Gaussian FWHM parameter ``a`` from sigma.
 
     a = sqrt(8 ln 2) × sigma
 
@@ -115,7 +115,7 @@ def a_from_sigma(sigma_m):
     Returns
     -------
     float
-        Width parameter ``a`` in metres.
+        Full width at half maximum (FWHM), denoted here as ``a``, in metres.
 
     Raises
     ------
@@ -128,14 +128,14 @@ def a_from_sigma(sigma_m):
 
 
 def sigma_from_a(a_m):
-    """Calculate Gaussian sigma from width parameter ``a``.
+    """Calculate Gaussian sigma from FWHM parameter ``a``.
 
     sigma = a / sqrt(8 ln 2)
 
     Parameters
     ----------
     a_m : float
-        Width parameter ``a`` in metres.
+        Full width at half maximum (FWHM), denoted here as ``a``, in metres.
 
     Returns
     -------
