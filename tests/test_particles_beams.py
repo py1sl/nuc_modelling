@@ -11,6 +11,11 @@ import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from particles_beams import (
+    beam_diameter_from_sigma,
+    beam_diameters_1_2_3_sigma,
+    sigma_from_beam_diameter,
+    a_from_sigma,
+    sigma_from_a,
     beam_power,
     particles_per_second,
     particles_per_pulse,
@@ -28,6 +33,67 @@ from particles_beams import (
 )
 from nuclear_constants import ELEMENTARY_CHARGE, MEV_TO_J, SPEED_OF_LIGHT
 from particle import particle, proton, electron
+
+
+# ---------------------------------------------------------------------------
+# Beam dimensions (Gaussian)
+# ---------------------------------------------------------------------------
+
+class TestBeamDimensions:
+    """Tests for Gaussian beam dimension conversion functions"""
+
+    def test_beam_diameter_from_sigma_1sigma(self):
+        assert math.isclose(beam_diameter_from_sigma(1e-3, 1), 2e-3, rel_tol=1e-12)
+
+    def test_beam_diameter_from_sigma_2sigma(self):
+        assert math.isclose(beam_diameter_from_sigma(1e-3, 2), 4e-3, rel_tol=1e-12)
+
+    def test_beam_diameter_from_sigma_3sigma(self):
+        assert math.isclose(beam_diameter_from_sigma(1e-3, 3), 6e-3, rel_tol=1e-12)
+
+    def test_beam_diameters_1_2_3_sigma(self):
+        d1, d2, d3 = beam_diameters_1_2_3_sigma(1e-3)
+        assert math.isclose(d1, 2e-3, rel_tol=1e-12)
+        assert math.isclose(d2, 4e-3, rel_tol=1e-12)
+        assert math.isclose(d3, 6e-3, rel_tol=1e-12)
+
+    def test_sigma_from_beam_diameter(self):
+        assert math.isclose(sigma_from_beam_diameter(6e-3, 3), 1e-3, rel_tol=1e-12)
+
+    def test_sigma_diameter_round_trip(self):
+        sigma = 2.5e-4
+        diameter = beam_diameter_from_sigma(sigma, n_sigma=2)
+        assert math.isclose(
+            sigma_from_beam_diameter(diameter, n_sigma=2),
+            sigma,
+            rel_tol=1e-12,
+        )
+
+    def test_a_sigma_round_trip(self):
+        sigma = 1.2e-3
+        a_val = a_from_sigma(sigma)
+        assert math.isclose(sigma_from_a(a_val), sigma, rel_tol=1e-12)
+
+    def test_sigma_from_a_formula(self):
+        a_val = 2.0e-3
+        expected = a_val / math.sqrt(8.0 * math.log(2.0))
+        assert math.isclose(sigma_from_a(a_val), expected, rel_tol=1e-12)
+
+    def test_negative_sigma_raises(self):
+        with pytest.raises(ValueError, match="Sigma must be non-negative"):
+            beam_diameter_from_sigma(-1e-3)
+
+    def test_negative_diameter_raises(self):
+        with pytest.raises(ValueError, match="Beam diameter must be non-negative"):
+            sigma_from_beam_diameter(-1e-3)
+
+    def test_non_positive_n_sigma_raises(self):
+        with pytest.raises(ValueError, match="n_sigma must be positive"):
+            beam_diameter_from_sigma(1e-3, 0)
+
+    def test_negative_a_raises(self):
+        with pytest.raises(ValueError, match="a must be non-negative"):
+            sigma_from_a(-1e-3)
 
 
 # ---------------------------------------------------------------------------
