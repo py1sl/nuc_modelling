@@ -19,6 +19,8 @@ import math
 from nuclear_constants import ELEMENTARY_CHARGE, MEV_TO_J, SPEED_OF_LIGHT
 from particle import particle
 
+GAUSSIAN_FWHM_PROFILE_FACTOR = math.sqrt(4.0 * math.log(2.0))
+
 
 # ---------------------------------------------------------------------------
 # Current / power relationships
@@ -155,7 +157,7 @@ def sigma_from_a(a_m):
 def gaussian_profile_p_of_x(x, a, b=0.0, c=1.0):
     """Calculate the Gaussian beam profile value p(x).
 
-    p(x) = c * exp(-(1.6651092 * (x - b) / a)^2)
+    p(x) = c * exp(-(k * (x - b) / a)^2), with k = 1.6651092
 
     Parameters
     ----------
@@ -176,11 +178,11 @@ def gaussian_profile_p_of_x(x, a, b=0.0, c=1.0):
     Raises
     ------
     ValueError
-        If *a* is zero.
+        If *a* is non-positive.
     """
-    if a == 0:
-        raise ValueError("a must be non-zero")
-    return c * math.exp(-1.0 * (1.6651092 * (x - b) / a) ** 2)
+    if a <= 0:
+        raise ValueError("a must be positive")
+    return c * math.exp(-(GAUSSIAN_FWHM_PROFILE_FACTOR * (x - b) / a) ** 2)
 
 
 def beam_power(current, energy_mev, charge_number=1, duty_factor=1.0):

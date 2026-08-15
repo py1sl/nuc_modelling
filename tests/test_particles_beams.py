@@ -17,6 +17,7 @@ from particles_beams import (
     a_from_sigma,
     sigma_from_a,
     gaussian_profile_p_of_x,
+    GAUSSIAN_FWHM_PROFILE_FACTOR,
     beam_power,
     particles_per_second,
     particles_per_pulse,
@@ -107,7 +108,7 @@ class TestGaussianProfile:
     def test_default_b_and_c(self):
         x = 1.0
         a = 2.0
-        expected = math.exp(-(1.6651092 * x / a) ** 2)
+        expected = math.exp(-(GAUSSIAN_FWHM_PROFILE_FACTOR * x / a) ** 2)
         assert math.isclose(gaussian_profile_p_of_x(x, a), expected, rel_tol=1e-12)
 
     def test_with_explicit_b_and_c(self):
@@ -115,15 +116,19 @@ class TestGaussianProfile:
         a = 4.0
         b = 1.0
         c = 2.5
-        expected = c * math.exp(-(1.6651092 * (x - b) / a) ** 2)
+        expected = c * math.exp(-(GAUSSIAN_FWHM_PROFILE_FACTOR * (x - b) / a) ** 2)
         assert math.isclose(gaussian_profile_p_of_x(x, a, b=b, c=c), expected, rel_tol=1e-12)
 
     def test_center_equals_amplitude(self):
         assert math.isclose(gaussian_profile_p_of_x(5.0, 1.0, b=5.0, c=3.2), 3.2, rel_tol=1e-12)
 
     def test_zero_a_raises(self):
-        with pytest.raises(ValueError, match="a must be non-zero"):
+        with pytest.raises(ValueError, match="a must be positive"):
             gaussian_profile_p_of_x(1.0, 0.0)
+
+    def test_negative_a_raises(self):
+        with pytest.raises(ValueError, match="a must be positive"):
+            gaussian_profile_p_of_x(1.0, -2.0)
 
 
 # ---------------------------------------------------------------------------
