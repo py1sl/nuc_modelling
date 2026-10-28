@@ -3,14 +3,9 @@ Tests for radiation.py
 """
 
 import pytest
-import sys
-import os
 import numpy as np
 
-# Add parent directory to path to import radiation module
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
-from radiation import (
+from nuc_modelling.utilities.radiation import (
     decay_constant,
     half_life,
     activity,

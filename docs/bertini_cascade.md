@@ -1,6 +1,7 @@
 # Bertini Intra-Nuclear Cascade Model
 
-This document describes the physics and equations implemented in `bertini_cascade.py`.
+This document describes the physics and equations implemented in
+`nuc_modelling.spallation.bertini_cascade`.
 
 The Bertini Intra-Nuclear Cascade (INC) model simulates the interaction of a high-energy
 projectile (here a proton) with a nucleus by treating the nucleus as a continuous nuclear medium

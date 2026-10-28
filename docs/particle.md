@@ -1,7 +1,7 @@
 # Particle Properties
 
 This document describes the physical properties of the fundamental particles represented in
-`particle.py` and the nuclear physics quantities associated with them.
+`nuc_modelling.utilities.particle` and the nuclear physics quantities associated with them.
 
 ---
 

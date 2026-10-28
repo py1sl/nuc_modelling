@@ -22,20 +22,19 @@ dev = [
 ]
 
 [tool.setuptools]
-py-modules = [
-    "basic_nuclear_structure",
-    "bertini_cascade",
-    "kinematics",
-    "nuclear_constants",
-    "nuclear_interaction",
-    "particle",
-    "particles_beams",
-    "radiation",
-]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["nuc_modelling*"]
+
+[tool.setuptools.package-data]
+"nuc_modelling.utilities" = ["data/*.json"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+pythonpath = ["src"]
 
 [tool.coverage.run]
-source = ["."]
+source = ["nuc_modelling"]
 omit = ["tests/*", "setup.py"]

@@ -1,7 +1,7 @@
 # Nuclear and Physical Constants
 
 This document describes the physical constants and unit conversions defined in
-`nuclear_constants.py` and used throughout the nuclear modelling codebase.
+`nuc_modelling.basic_nuclear.nuclear_constants` and used throughout the nuclear modelling codebase.
 
 ---
 
