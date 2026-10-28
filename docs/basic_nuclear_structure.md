@@ -1,6 +1,7 @@
 # Basic Nuclear Structure
 
-This document describes the physics and equations implemented in `basic_nuclear_structure.py`.
+This document describes the physics and equations implemented in
+`nuc_modelling.basic_nuclear.basic_nuclear_structure`.
 
 ---
 

@@ -5,17 +5,24 @@ Based on papers, codes, books and educational resources
 
 ---
 
+## Installation
+
+Install the project and its development tools from the repository root:
+
+```bash
+python -m pip install -e ".[dev]"
+```
+
+The package uses a `src` layout and exposes modules under the `nuc_modelling`
+namespace.
+
 ## Module overview
 
-| Module | Layer | Purpose |
-|--------|-------|---------|
-| `nuclear_constants.py` | Constants | Physical constants in SI units |
-| `basic_nuclear_structure.py` | Structure | Binding/separation energies, liquid-drop model, nuclear radii, magic numbers |
-| `nuclear_interaction.py` | Interaction | Two-body potentials, cross-section utilities, target geometry, uncertainty propagation |
-| `kinematics.py` | Transport | Relativistic kinematics, Lorentz boosts, threshold energies |
-| `particles_beams.py` | Beams | Particle/beam definitions, beam-phase-space utilities |
-| `bertini_cascade.py` | Cascade | Intra-nuclear cascade (INC) model: Fermi momentum, mean-free-path, cascade stepping |
-| `radiation.py` | Radiation | Photon/charged-particle energy-loss and radiative-process utilities |
+| Package | Modules | Purpose |
+|---------|---------|---------|
+| `nuc_modelling.basic_nuclear` | `nuclear_constants`, `basic_nuclear_structure`, `nuclear_interaction` | Physical constants, nuclear structure, potentials, cross sections, and target geometry |
+| `nuc_modelling.spallation` | `bertini_cascade` | Intra-nuclear cascade (INC) model: Fermi momentum, mean-free-path, cascade stepping |
+| `nuc_modelling.utilities` | `kinematics`, `particle`, `particles_beams`, `radiation` | Shared particle, beam, kinematics, and radiation utilities |
 
 ### When to use each layer
 
@@ -31,6 +38,14 @@ Based on papers, codes, books and educational resources
 - **Cascade** — Monte-Carlo INC stepping inside a nucleus; compare against analytic Interaction-layer  
   estimates on the same scenario for cross-checks.
 - **Radiation** — energy-loss rates and radiative corrections for charged particles and photons inside matter.
+
+Modules can be imported from their package paths, for example:
+
+```python
+from nuc_modelling.basic_nuclear.basic_nuclear_structure import binding_energy
+from nuc_modelling.spallation.bertini_cascade import BertiniCascade
+from nuc_modelling.utilities.kinematics import neutron_recoil_energy
+```
 
 ### Units convention
 

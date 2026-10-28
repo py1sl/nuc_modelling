@@ -4,13 +4,7 @@ Tests for particles_beams.py
 
 import math
 import pytest
-import sys
-import os
-
-# Add parent directory to path to import modules
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
-from particles_beams import (
+from nuc_modelling.utilities.particles_beams import (
     beam_diameter_from_sigma,
     beam_diameters_1_2_3_sigma,
     sigma_from_beam_diameter,
@@ -33,8 +27,8 @@ from particles_beams import (
     lorentz_gamma_from_particle,
     lorentz_beta_from_particle,
 )
-from nuclear_constants import ELEMENTARY_CHARGE, MEV_TO_J, SPEED_OF_LIGHT
-from particle import particle, proton, electron
+from nuc_modelling.basic_nuclear.nuclear_constants import ELEMENTARY_CHARGE, MEV_TO_J, SPEED_OF_LIGHT
+from nuc_modelling.utilities.particle import particle, proton, electron
 
 
 # ---------------------------------------------------------------------------

@@ -1,6 +1,7 @@
 # Radiation Physics
 
-This document describes the physics and equations implemented in `radiation.py`.
+This document describes the physics and equations implemented in
+`nuc_modelling.utilities.radiation`.
 
 ---
 

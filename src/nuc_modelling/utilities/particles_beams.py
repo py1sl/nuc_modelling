@@ -16,8 +16,8 @@ alongside standalone versions that take explicit numeric arguments.
 
 import math
 
-from nuclear_constants import ELEMENTARY_CHARGE, MEV_TO_J, SPEED_OF_LIGHT
-from particle import particle
+from ..basic_nuclear.nuclear_constants import ELEMENTARY_CHARGE, MEV_TO_J, SPEED_OF_LIGHT
+from .particle import particle
 
 GAUSSIAN_FWHM_PROFILE_FACTOR = math.sqrt(4.0 * math.log(2.0))
 

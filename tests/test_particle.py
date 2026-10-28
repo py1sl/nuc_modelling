@@ -3,14 +3,13 @@ Tests for particle.py
 """
 
 import pytest
-import sys
-import os
-
-# Add parent directory to path to import modules
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
-from particle import particle, neutron, proton, electron, load_particle_data
-from nuclear_constants import PROTON_MASS, NEUTRON_MASS, ELECTRON_MASS, ELEMENTARY_CHARGE
+from nuc_modelling.utilities.particle import particle, neutron, proton, electron, load_particle_data
+from nuc_modelling.basic_nuclear.nuclear_constants import (
+    PROTON_MASS,
+    NEUTRON_MASS,
+    ELECTRON_MASS,
+    ELEMENTARY_CHARGE,
+)
 
 
 class TestParticle:

@@ -3,13 +3,7 @@ Tests for basic_nuclear_structure.py
 """
 
 import pytest
-import sys
-import os
-
-# Add parent directory to path to import basic_nuclear_structure module
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
-from basic_nuclear_structure import (
+from nuc_modelling.basic_nuclear.basic_nuclear_structure import (
     SEMF,
     binding_energy,
     neutron_separation_energy,

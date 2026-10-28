@@ -4,13 +4,7 @@ Tests for bertini_cascade.py
 
 import pytest
 import math
-import sys
-import os
-
-# Add parent directory to path to import modules
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
-from bertini_cascade import (
+from nuc_modelling.spallation.bertini_cascade import (
     TUNGSTEN_Z,
     TUNGSTEN_A,
     TUNGSTEN_N,

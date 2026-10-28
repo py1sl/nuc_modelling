@@ -13,8 +13,8 @@ This module provides:
 
 import math
 
-from particle import particle
-from nuclear_constants import (
+from ..utilities.particle import particle
+from .nuclear_constants import (
     ELEMENTARY_CHARGE,
     ELECTRON_MASS,
     HBAR,

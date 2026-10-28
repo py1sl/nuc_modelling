@@ -13,7 +13,12 @@ import json
 import os
 from copy import deepcopy
 
-from nuclear_constants import PROTON_MASS, NEUTRON_MASS, ELECTRON_MASS, ELEMENTARY_CHARGE
+from ..basic_nuclear.nuclear_constants import (
+    PROTON_MASS,
+    NEUTRON_MASS,
+    ELECTRON_MASS,
+    ELEMENTARY_CHARGE,
+)
 
 _DATA_FILE = os.path.join(os.path.dirname(__file__), "data", "particles.json")
 _PARTICLE_DATA_CACHE = None

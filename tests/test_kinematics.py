@@ -3,14 +3,9 @@ Tests for kinematics.py — classical and relativistic collision kinematics.
 """
 
 import math
-import sys
-import os
-
 import pytest
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-
-from kinematics import (
+from nuc_modelling.utilities.kinematics import (
     # classical
     classical_cm_energy,
     classical_scattered_energy_cm,

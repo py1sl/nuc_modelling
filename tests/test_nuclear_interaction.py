@@ -9,14 +9,9 @@ Covers all four layers:
 """
 
 import math
-import sys
-import os
-
 import pytest
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-
-from nuclear_interaction import (
+from nuc_modelling.basic_nuclear.nuclear_interaction import (
     # Constants
     HBAR_C_MEV_FM,
     FINE_STRUCTURE_CONSTANT,
@@ -780,14 +775,14 @@ class TestCrossModuleConsistency:
 
     def test_nuclear_target_radius_consistent_with_bertini(self):
         """NuclearTarget radius formula matches bertini_cascade.nuclear_radius."""
-        from bertini_cascade import nuclear_radius as bertini_radius
+        from nuc_modelling.spallation.bertini_cascade import nuclear_radius as bertini_radius
 
         target = NuclearTarget(z=74, a=184)
         assert target.radius_fm == pytest.approx(bertini_radius(184), rel=1e-10)
 
     def test_nuclear_target_fermi_momentum_consistent_with_bertini(self):
         """NuclearTarget Fermi momentum matches bertini_cascade.fermi_momentum."""
-        from bertini_cascade import fermi_momentum as bertini_fp
+        from nuc_modelling.spallation.bertini_cascade import fermi_momentum as bertini_fp
 
         target = NuclearTarget(z=74, a=184)
         assert target.fermi_momentum_mev_c() == pytest.approx(
@@ -796,7 +791,10 @@ class TestCrossModuleConsistency:
 
     def test_mean_free_path_consistent_with_bertini(self):
         """NuclearTarget.mean_free_path_fm is consistent with bertini mean_free_path."""
-        from bertini_cascade import mean_free_path as bertini_mfp, nucleon_nucleon_cross_section
+        from nuc_modelling.spallation.bertini_cascade import (
+            mean_free_path as bertini_mfp,
+            nucleon_nucleon_cross_section,
+        )
 
         target = NuclearTarget(z=74, a=184)
         T_mev = 500.0
